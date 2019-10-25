@@ -5,6 +5,7 @@ const temp = require('temp').track();
 const path = require('path');
 const async = require('async');
 const { exec } = require('child_process');
+const BIN_PATH = process.env.USR_BIN_PATH;
 
 exports.convert = (document, format, filter, callback) => {
     return async.auto({
@@ -13,7 +14,7 @@ exports.convert = (document, format, filter, callback) => {
             switch (process.platform) {
                 case 'darwin': paths = ['/Applications/LibreOffice.app/Contents/MacOS/soffice'];
                     break;
-                case 'linux': paths = ['/usr/bin/libreoffice', '/usr/bin/soffice'];
+                case 'linux': paths = [`${BIN_PATH ? BIN_PATH : '/usr/bin/'}libreoffice`, `${BIN_PATH ? BIN_PATH : '/usr/bin/'}soffice`];
                     break;
                 case 'win32': paths = [
                     path.join(process.env['PROGRAMFILES(X86)'], 'LIBREO~1/program/soffice.exe'),
